@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 
-contract Voting {
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Voting is Ownable {
+    constructor(address initialOwner) Ownable(initialOwner) {}
+
     struct Proposal {
         uint256 voteCount;
         string description;
@@ -9,7 +13,7 @@ contract Voting {
 
     Proposal[] public proposals;
 
-    function createProposal(string memory _description) public {
+    function createProposal(string memory _description) public onlyOwner {
         proposals.push(Proposal({description: _description, voteCount: 0}));
     }
 
