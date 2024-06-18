@@ -30,4 +30,18 @@ describe('Voting', function () {
     const proposals = await voting.getProposals();
     expect(proposals[0].voteCount).to.equal(1);
   });
+
+  it('Should return all proposals', async function () {
+    const description1 = 'Proposal 1';
+    const description2 = 'Proposal 2';
+    const voting = await deployContract();
+
+    await voting.createProposal(description1);
+    await voting.createProposal(description2);
+
+    const proposals = await voting.getProposals();
+    expect(proposals.length).to.equal(2);
+    expect(proposals[0].description).to.equal(description1);
+    expect(proposals[1].description).to.equal(description2);
+  });
 });
