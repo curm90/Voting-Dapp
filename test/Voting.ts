@@ -71,4 +71,15 @@ describe('Voting', function () {
 
     await expect(voting.connect(addr1).vote(1)).to.be.revertedWith('Invalid proposal');
   });
+
+  it('Should record the user has already voted', async function () {
+    const description = 'Proposal 1';
+    const { voting, addr1 } = await deployContract();
+
+    await voting.createProposal(description);
+    await voting.connect(addr1).vote(0);
+
+    const hasVoted = await voting.hasVoted(addr1.address);
+    expect(hasVoted).to.be.true;
+  });
 });
