@@ -10,10 +10,13 @@ describe('Voting', function () {
     return { voting, owner, addr1 };
   }
 
-  it('Should create a proposal', async function () {
+  it('Should create a proposal and emit ProposalCreated event', async function () {
     const description = 'Proposal 1';
     const { voting } = await deployContract();
-    await voting.createProposal(description);
+
+    await expect(voting.createProposal(description))
+      .to.emit(voting, 'ProposalCreated')
+      .withArgs(0, description);
 
     const proposals = await voting.getProposals();
     expect(proposals.length).to.equal(1);
@@ -21,12 +24,12 @@ describe('Voting', function () {
     expect(proposals[0].voteCount).to.equal(0);
   });
 
-  it('Should vote for a proposal', async function () {
+  it('Should vote for a proposal and emit Voted event', async function () {
     const description = 'Proposal 1';
-    const { voting } = await deployContract();
+    const { voting, addr1 } = await deployContract();
     await voting.createProposal(description);
 
-    await voting.vote(0);
+    await expect(voting.connect(addr1).vote(0)).to.emit(voting, 'Voted').withArgs(addr1.address, 0);
 
     const proposals = await voting.getProposals();
     expect(proposals[0].voteCount).to.equal(1);
