@@ -13,12 +13,17 @@ contract Voting is Ownable {
 
     Proposal[] public proposals;
 
+    mapping(address => bool) public hasVoted;
+
     function createProposal(string memory _description) public onlyOwner {
         proposals.push(Proposal({description: _description, voteCount: 0}));
     }
 
     function vote(uint256 proposalId) public {
+        require(!hasVoted[msg.sender], "Already voted");
+        require(proposalId < proposals.length, "Invalid proposal");
         proposals[proposalId].voteCount += 1;
+        hasVoted[msg.sender] = true;
     }
 
     function getProposals() public view returns (Proposal[] memory) {
