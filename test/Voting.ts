@@ -60,4 +60,15 @@ describe('Voting', function () {
       expect(error.message).to.include('OwnableUnauthorizedAccount');
     }
   });
+
+  it('Should only allow voter to vote on a valid proposal', async function () {
+    const description = 'Proposal 1';
+    const { voting, addr1 } = await deployContract();
+
+    await expect(voting.connect(addr1).vote(0)).to.be.revertedWith('Invalid proposal');
+
+    await voting.createProposal(description);
+
+    await expect(voting.connect(addr1).vote(1)).to.be.revertedWith('Invalid proposal');
+  });
 });
