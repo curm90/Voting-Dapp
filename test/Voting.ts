@@ -82,4 +82,14 @@ describe('Voting', function () {
     const hasVoted = await voting.hasVoted(addr1.address);
     expect(hasVoted).to.be.true;
   });
+
+  it('Should only allow the user to vote once', async function () {
+    const description = 'Proposal 1';
+    const { voting, addr1 } = await deployContract();
+
+    await voting.createProposal(description);
+    await voting.connect(addr1).vote(0);
+
+    await expect(voting.connect(addr1).vote(0)).to.be.revertedWith('Already voted');
+  });
 });
