@@ -1,0 +1,1 @@
+export const SEPOLIA_NEWORK_ID = 11155111;
