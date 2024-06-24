@@ -13,3 +13,9 @@ export async function getContract() {
 
   return contract;
 }
+
+export async function getOwner(provider: ethers.providers.Web3Provider) {
+  const contract = new ethers.Contract(CONTRACT_ADDRESS, VotingArtifact.abi, provider);
+  const owner = await contract.owner();
+  return owner;
+}
