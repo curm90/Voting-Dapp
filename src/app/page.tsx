@@ -1,9 +1,7 @@
-import CreateProposal from '@/components/CreateProposal/CreateProposal';
-
 export default function Home() {
   return (
     <main>
-      <CreateProposal />
+      <h1>Home page</h1>
     </main>
   );
 }
