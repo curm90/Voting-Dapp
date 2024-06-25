@@ -1,21 +1,13 @@
-import { ethers } from 'ethers';
-
+import { getContract } from 'thirdweb';
+import { sepolia } from 'thirdweb/chains';
+import client from '@/constants/thirdwebClient';
 import VotingArtifact from '../../artifacts/contracts/Voting.sol/Voting.json';
+import { SEPOLIA_CONTRACT_ADDRESS } from '@/constants/chainIds';
 
-const CONTRACT_ADDRESS = '0xC3253A478B90879E01ad39cD8B6EB0dcD462d3a6';
-const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
-
-export async function getContract() {
-  const provider = new ethers.providers.JsonRpcProvider(SEPOLIA_RPC_URL);
-  const signer = provider.getSigner();
-
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, VotingArtifact.abi, signer);
-
-  return contract;
-}
-
-export async function getOwner(provider: ethers.providers.Web3Provider) {
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, VotingArtifact.abi, provider);
-  const owner = await contract.owner();
-  return owner;
-}
+export const votingContract = getContract({
+  client,
+  chain: sepolia,
+  address: SEPOLIA_CONTRACT_ADDRESS,
+  //@ts-ignore
+  abi: VotingArtifact.abi,
+});
