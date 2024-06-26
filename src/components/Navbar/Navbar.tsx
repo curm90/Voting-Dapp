@@ -17,19 +17,21 @@ import { votingContract } from '@/lib/voting';
 // If there was an error alert the user something went wrong
 
 export default function Navbar() {
-  const wallet = useActiveAccount();
-  const address = wallet?.address;
   const router = useRouter();
   const [isOwner, setIsOwner] = useState(false);
+  const wallet = useActiveAccount();
+  const address = wallet?.address;
 
   const { data: owner } = useReadContract({ contract: votingContract, method: 'owner', params: [] });
 
   useEffect(() => {
-    if (owner && address) {
-      if (owner.toLowerCase() === address.toLowerCase()) {
-        return setIsOwner(true);
+    if (owner && typeof owner === 'string' && address) {
+      if (owner === address) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
       }
-
+    } else {
       setIsOwner(false);
     }
   }, [owner, address]);
