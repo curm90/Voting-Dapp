@@ -10,7 +10,7 @@ export default function CreateProposal() {
   // }
 
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <div className='flex h-full flex-col items-center justify-center'>
       <div className='flex min-h-[20rem] w-[50rem] flex-col justify-between rounded-lg border border-violet-500 bg-violet-950 p-8'>
         <input
           type='text'
