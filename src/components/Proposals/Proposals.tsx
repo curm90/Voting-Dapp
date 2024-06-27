@@ -36,8 +36,6 @@ export default function Proposals() {
         params: [BigInt(proposalId)],
       });
 
-      console.log({ tx });
-
       sendTx(tx, {
         onError: (error) => {
           console.log({ error });
@@ -50,13 +48,10 @@ export default function Proposals() {
       setLoading(false);
     }
   };
-  // console.log({ txReceipt, isPending });
 
   if (isLoading) return <span>Loading...</span>;
 
   const parsedError = isError && txError?.message?.split('\n')[0];
-
-  console.log({ parsedError });
 
   return (
     <section className='h-minus-header flex items-center justify-center'>
