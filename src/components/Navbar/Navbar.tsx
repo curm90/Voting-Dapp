@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useActiveAccount, useReadContract } from 'thirdweb/react';
 import ConnectWalletBtn from '../ConnectWalletBtn/ConnectWalletBtn';
@@ -17,7 +17,6 @@ import { votingContract } from '@/lib/voting';
 // If there was an error alert the user something went wrong
 
 export default function Navbar() {
-  const router = useRouter();
   const [isOwner, setIsOwner] = useState(false);
   const wallet = useActiveAccount();
   const address = wallet?.address;
@@ -39,15 +38,18 @@ export default function Navbar() {
   return (
     <nav className='flex w-full items-center justify-between gap-2 bg-indigo-950 px-12 py-4 text-gray-100'>
       <h4>Voting Dapp</h4>
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-8'>
+        <Link className='text-violet-200 underline duration-100 hover:text-violet-50' href='/proposals'>
+          Proposals
+        </Link>
+
         {isOwner ? (
-          <button
-            className='rounded-md bg-indigo-500 px-4 py-2 text-gray-50 duration-150 hover:bg-indigo-400'
-            type='button'
-            onClick={() => router.push('/create-proposal')}
+          <Link
+            className='text-violet-200 underline duration-100 hover:text-violet-50'
+            href='/create-proposal'
           >
             Create proposal
-          </button>
+          </Link>
         ) : null}
         <ConnectWalletBtn />
       </div>
