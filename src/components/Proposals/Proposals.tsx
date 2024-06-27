@@ -7,6 +7,7 @@ import { useReadContract, useSendAndConfirmTransaction } from 'thirdweb/react';
 
 export default function Proposals() {
   const [loading, setLoading] = useState(false);
+  const [proposalVoteIndex, setProposalVoteIndex] = useState<number | null>(null);
 
   const { data: proposals, isLoading } = useReadContract({
     contract: votingContract,
@@ -26,6 +27,7 @@ export default function Proposals() {
     if (typeof proposalId !== 'number') return;
 
     setLoading(true);
+    setProposalVoteIndex(null);
 
     try {
       const tx = prepareContractCall({
@@ -36,8 +38,12 @@ export default function Proposals() {
 
       console.log({ tx });
 
-      sendTx(tx);
-      console.log({ tx, txError });
+      sendTx(tx, {
+        onError: (error) => {
+          console.log({ error });
+          setProposalVoteIndex(proposalId);
+        },
+      });
     } catch (error) {
       console.log({ error });
     } finally {
@@ -58,8 +64,6 @@ export default function Proposals() {
         <h1 className='mb-2 text-2xl'>Proposals</h1>
         {/* @ts-ignore */}
         {proposals?.map(({ description, voteCount }, index) => {
-          console.log({ voteCount, type: typeof voteCount });
-
           return (
             <div
               key={description}
@@ -70,15 +74,17 @@ export default function Proposals() {
                 <span className='text-violet-400'>{Number(voteCount)} Vote(s)</span>
               </div>
 
-              <div className='flex flex-col gap-4'>
+              <div className='flex flex-col items-end gap-2'>
                 <button
                   disabled={isPending || loading}
-                  className='rounded-md bg-violet-400 px-3 py-1 text-white disabled:cursor-not-allowed'
+                  className='w-fit rounded-md bg-violet-400 px-3 py-1 text-white disabled:cursor-not-allowed'
                   onClick={() => handleVote(index)}
                 >
                   {isPending || isLoading ? 'Voting...' : 'Vote'}
                 </button>
-                {isError ? <span className='text-sm text-red-400'>{parsedError}</span> : null}
+                {isError && proposalVoteIndex === index ? (
+                  <span className='text-sm text-red-400'>{parsedError}</span>
+                ) : null}
               </div>
             </div>
           );
