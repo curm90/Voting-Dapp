@@ -27,7 +27,7 @@ export default function Proposals() {
     if (typeof proposalId !== 'number') return;
 
     setLoading(true);
-    setProposalVoteIndex(null);
+    setProposalVoteIndex(proposalId);
 
     try {
       const tx = prepareContractCall({
@@ -41,9 +41,13 @@ export default function Proposals() {
           console.log({ error });
           setProposalVoteIndex(proposalId);
         },
+        onSuccess: () => {
+          setProposalVoteIndex(null);
+        },
       });
     } catch (error) {
       console.log({ error });
+      setProposalVoteIndex(null);
     } finally {
       setLoading(false);
     }
@@ -54,7 +58,7 @@ export default function Proposals() {
   const parsedError = isError && txError?.message?.split('\n')[0];
 
   return (
-    <section className='h-minus-header flex items-center justify-center'>
+    <section className='flex h-minus-header items-center justify-center'>
       <div className='flex flex-col gap-2'>
         <h1 className='mb-2 text-2xl'>Proposals</h1>
         {/* @ts-ignore */}
@@ -72,10 +76,17 @@ export default function Proposals() {
               <div className='flex flex-col items-end gap-2'>
                 <button
                   disabled={isPending || loading}
-                  className='w-fit rounded-md bg-violet-400 px-3 py-1 text-white disabled:cursor-not-allowed'
+                  className='flex w-fit items-center rounded-md bg-violet-400 px-3 py-1 text-white disabled:cursor-not-allowed'
                   onClick={() => handleVote(index)}
                 >
-                  {isPending || isLoading ? 'Voting...' : 'Vote'}
+                  {index === proposalVoteIndex && (isPending || loading) ? (
+                    <>
+                      <span className='animate-spinner mr-2 h-5 w-5 rounded-full border-2 border-white border-b-transparent'></span>
+                      <span>Voting...</span>
+                    </>
+                  ) : (
+                    'Vote'
+                  )}
                 </button>
                 {isError && proposalVoteIndex === index ? (
                   <span className='text-sm text-red-400'>{parsedError}</span>
