@@ -15,6 +15,15 @@ const config: Config = {
       height: {
         'minus-header': 'calc(100vh - 96px)',
       },
+      animation: {
+        spinner: 'rotation 1s linear infinite',
+      },
+      keyframes: {
+        rotation: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
     },
   },
   plugins: [],
