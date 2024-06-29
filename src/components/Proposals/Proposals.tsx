@@ -68,15 +68,15 @@ export default function Proposals() {
               key={description}
               className='flex items-center justify-between gap-8 rounded-lg border border-violet-600 bg-violet-100 px-4 py-2'
             >
-              <div className='flex flex-col gap-2'>
-                <p>{description}</p>
+              <div className='flex h-[60px] flex-col justify-center gap-2'>
+                <p className='max-w-[600px] overflow-y-auto'>{description}</p>
                 <span className='text-violet-400'>{Number(voteCount)} Vote(s)</span>
               </div>
 
               <div className='flex flex-col items-end gap-2'>
                 <button
                   disabled={isPending || loading}
-                  className='flex w-fit items-center rounded-md bg-violet-400 px-3 py-1 text-white disabled:cursor-not-allowed'
+                  className='flex w-fit items-center rounded-md bg-violet-400 px-3 py-1 text-white duration-150 hover:bg-violet-300 disabled:cursor-not-allowed'
                   onClick={() => handleVote(index)}
                 >
                   {index === proposalVoteIndex && (isPending || loading) ? (
