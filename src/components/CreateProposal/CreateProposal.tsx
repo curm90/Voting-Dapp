@@ -40,7 +40,7 @@ export default function CreateProposal() {
           <h3 className='text-violet-500'>Owner</h3>
           <span>create proposal</span>
         </div>
-        <div className='flex min-h-[20rem] w-[50rem] flex-col justify-between rounded-lg border border-violet-600 bg-violet-100 p-8'>
+        <div className='flex min-h-[15rem] w-[50rem] flex-col justify-between rounded-lg border border-violet-600 bg-violet-100 p-8'>
           <div className='flex flex-col gap-1'>
             <input
               type='text'
@@ -54,10 +54,17 @@ export default function CreateProposal() {
           </div>
           <button
             disabled={loading || isPending}
-            className='rounded-md bg-violet-400 px-4 py-2 text-gray-50 duration-150 hover:bg-violet-300'
+            className='flex w-fit items-center justify-end rounded-md bg-violet-400 px-3 py-1 text-white duration-150 hover:bg-violet-300 disabled:cursor-not-allowed'
             onClick={handleCreateProposal}
           >
-            {loading || isPending ? 'Sending tx...' : 'Create proposal'}
+            {loading || isPending ? (
+              <>
+                <span className='animate-spinner mr-2 h-5 w-5 rounded-full border-2 border-white border-b-transparent'></span>
+                <span>Sending tx...</span>
+              </>
+            ) : (
+              'Create proposal'
+            )}
           </button>
         </div>
       </div>

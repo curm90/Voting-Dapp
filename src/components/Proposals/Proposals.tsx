@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { prepareContractCall } from 'thirdweb';
 import { useReadContract, useSendAndConfirmTransaction } from 'thirdweb/react';
 
+// TODO: Add a separate page for individual proposals for longer descriptions instead of scroll
 export default function Proposals() {
   const [loading, setLoading] = useState(false);
   const [proposalVoteIndex, setProposalVoteIndex] = useState<number | null>(null);
