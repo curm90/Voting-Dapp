@@ -35,25 +35,31 @@ export default function CreateProposal() {
 
   return (
     <div className='flex h-full flex-col items-center justify-center'>
-      <div className='flex min-h-[20rem] w-[50rem] flex-col justify-between rounded-lg border border-violet-500 bg-violet-950 p-8'>
-        <div className='flex flex-col gap-1'>
-          <input
-            type='text'
-            className='w-full rounded-md border border-violet-500 bg-violet-800 px-4 py-2 text-white placeholder:text-violet-200'
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder='Proposal description...'
-          />
-          {error ? <span className='text-sm text-red-400'>{error}</span> : null}
-          {isSuccess ? <span className='text-sm text-green-400'>Proposal created successfully</span> : null}
+      <div>
+        <div className='mb-2 flex gap-1 text-xl'>
+          <h3 className='text-violet-500'>Owner</h3>
+          <span>create proposal</span>
         </div>
-        <button
-          disabled={loading || isPending}
-          className='rounded-md bg-indigo-500 px-4 py-2 text-gray-50 duration-150 hover:bg-indigo-400'
-          onClick={handleCreateProposal}
-        >
-          {loading || isPending ? 'Sending tx...' : 'Create proposal'}
-        </button>
+        <div className='flex min-h-[20rem] w-[50rem] flex-col justify-between rounded-lg border border-violet-600 bg-violet-100 p-8'>
+          <div className='flex flex-col gap-1'>
+            <input
+              type='text'
+              className='w-full rounded-md border border-violet-500 bg-transparent px-4 py-2 placeholder:text-violet-400'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder='Proposal description...'
+            />
+            {error ? <span className='text-sm text-red-400'>{error}</span> : null}
+            {isSuccess ? <span className='text-sm text-green-400'>Proposal created successfully</span> : null}
+          </div>
+          <button
+            disabled={loading || isPending}
+            className='rounded-md bg-violet-400 px-4 py-2 text-gray-50 duration-150 hover:bg-violet-300'
+            onClick={handleCreateProposal}
+          >
+            {loading || isPending ? 'Sending tx...' : 'Create proposal'}
+          </button>
+        </div>
       </div>
     </div>
   );

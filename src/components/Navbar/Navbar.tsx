@@ -26,11 +26,11 @@ export default function Navbar() {
   }, [owner, address]);
 
   return (
-    <nav className='flex w-full items-center justify-between gap-2 bg-indigo-950 px-12 py-4 text-gray-100'>
+    <nav className='flex w-full items-center justify-between gap-2 bg-violet-950 px-12 py-4 text-gray-100'>
       <h4>Voting Dapp</h4>
       <div className='flex items-center gap-8'>
-        <Link className='text-violet-200 underline duration-100 hover:text-violet-50' href='/proposals'>
-          Proposals
+        <Link className='text-violet-200 underline duration-100 hover:text-violet-50' href='/'>
+          Home
         </Link>
 
         {isOwner ? (
